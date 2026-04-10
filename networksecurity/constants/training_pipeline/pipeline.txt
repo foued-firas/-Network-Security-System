@@ -1,0 +1,11 @@
+MongoDB (Foued → network_security)
+        ↓
+Extraction
+        ↓
+data_ingestion/
+   ├── feature_store/
+   │     └── raw.csv
+   │
+   └── ingested/
+         ├── train.csv
+         └── test.csv
