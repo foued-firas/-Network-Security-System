@@ -1,0 +1,10 @@
+artifact_location: file:///F:/My project/NetworkSecurity/mlruns/392022758428393470/models/m-ab5bd0bf366742d4ab2d77bac67c292e/artifacts
+creation_timestamp: 1776207454728
+experiment_id: '392022758428393470'
+last_updated_timestamp: 1776207461493
+model_id: m-ab5bd0bf366742d4ab2d77bac67c292e
+model_type: null
+name: best_model
+source_run_id: 5a289c8bafc04073bb93a8d5cd7083aa
+status: 2
+status_message: null

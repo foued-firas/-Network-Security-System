@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/My project/NetworkSecurity/mlruns/392022758428393470/e2d3a746dd904c1d8560b2ad34770666/artifacts
+end_time: 1776207675027
+entry_point_name: ''
+experiment_id: '392022758428393470'
+lifecycle_stage: active
+run_id: e2d3a746dd904c1d8560b2ad34770666
+run_name: dapper-conch-363
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1776207669121
+status: 3
+tags: []
+user_id: foued
