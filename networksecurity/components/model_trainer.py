@@ -19,7 +19,10 @@ from sklearn.ensemble import (
     RandomForestClassifier,
 )
 import mlflow
+import dagshub
 
+# ✅ DagHub sets the tracking URI automatically — do NOT override it
+dagshub.init(repo_owner='foued-firas', repo_name='-Network-Security-System', mlflow=True)
 
 class ModelTrainer:
     def __init__(self, model_trainer_config: ModelTrainerConfig, data_transformation_artifact: DataTransformationArtifact):
@@ -30,14 +33,17 @@ class ModelTrainer:
             raise NetworkSecurityException(e, sys)
 
     def track_mlflow(self, best_model, train_metric, test_metric):
-        mlflow.set_tracking_uri("mlruns")  # point to local mlruns folder
-        mlflow.set_experiment("NetworkSecurity")  # give it a clear name
-    
+        
+        # mlflow.set_tracking_uri("mlruns")
+        # mlflow.set_experiment("NetworkSecurity")
+
         with mlflow.start_run():
+            # Train metrics
             mlflow.log_metric("train_f1_score", train_metric.f1_score)
             mlflow.log_metric("train_precision_score", train_metric.precision_score)
             mlflow.log_metric("train_recall_score", train_metric.recall_score)
 
+            # Test metrics
             mlflow.log_metric("test_f1_score", test_metric.f1_score)
             mlflow.log_metric("test_precision_score", test_metric.precision_score)
             mlflow.log_metric("test_recall_score", test_metric.recall_score)
