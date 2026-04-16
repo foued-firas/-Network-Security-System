@@ -1,0 +1,41 @@
+[2026-04-16 16:28:16,190] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:28:16,200] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-16 16:28:18,641] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-16 16:28:20,354] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:28:20,356] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-16 16:28:20,356] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!
+[2026-04-16 16:28:20,876] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/model.pkl "HTTP/1.1 302 Found"
+[2026-04-16 16:28:21,102] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/preprocessor.pkl "HTTP/1.1 302 Found"
+[2026-04-16 16:28:41,949] 62 root - INFO - Start data Ingestion
+[2026-04-16 16:28:59,514] 68 root - INFO - Performed train test split on the dataframe
+[2026-04-16 16:28:59,514] 70 root - INFO - Exited split_data_as_train_test method of Data_Ingestion class
+[2026-04-16 16:28:59,515] 78 root - INFO - Exporting train and test file path.
+[2026-04-16 16:28:59,571] 87 root - INFO - Exported train and test file path.
+[2026-04-16 16:28:59,573] 65 root - INFO - Data Ingestion completed and artifact: DataIngestionArtifact(trained_file_path='artifacts\\04_16_2026_16_28_12\\data_ingestion\\ingested\\train.csv', test_file_path='artifacts\\04_16_2026_16_28_12\\data_ingestion\\ingested\\test.csv')
+[2026-04-16 16:28:59,595] 75 root - INFO - Initiate the data Validation
+[2026-04-16 16:28:59,719] 34 root - INFO - Required number of columns: 31
+[2026-04-16 16:28:59,719] 35 root - INFO - Data frame has columns: 31
+[2026-04-16 16:28:59,721] 110 root - INFO - Train dataset validation passed
+[2026-04-16 16:28:59,721] 34 root - INFO - Required number of columns: 31
+[2026-04-16 16:28:59,721] 35 root - INFO - Data frame has columns: 31
+[2026-04-16 16:28:59,721] 117 root - INFO - Test dataset validation passed
+[2026-04-16 16:28:59,861] 65 root - INFO - Entered initiate_data_transformation method of DataTransformation class
+[2026-04-16 16:28:59,861] 67 root - INFO - Starting data transformation
+[2026-04-16 16:28:59,885] 50 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[2026-04-16 16:28:59,886] 55 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[2026-04-16 16:28:59,905] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-16 16:28:59,907] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-16 16:28:59,907] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-16 16:28:59,909] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-16 16:32:48,652] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-16 16:32:48,669] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-16 16:32:48,669] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-16 16:32:48,719] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-16 16:32:48,719] 122 root - INFO - Model trainer artifact: ModelTrainerArtifact(trained_model_file_path='artifacts\\04_16_2026_16_28_12\\model_trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9908443540183113, precision_score=0.9918533604887984, recall_score=0.9898373983739838), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9733656174334141, precision_score=0.9717969379532635, recall_score=0.9749393694421988))
+[2026-04-16 16:32:49,297] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/api/models/Fyiras/network-security-model/preupload/main "HTTP/1.1 200 OK"
+[2026-04-16 16:32:49,474] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/Fyiras/network-security-model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+[2026-04-16 16:32:50,130] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/xet-write-token/main "HTTP/1.1 200 OK"
+[2026-04-16 16:33:11,711] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/api/models/Fyiras/network-security-model/commit/main "HTTP/1.1 200 OK"
+[2026-04-16 16:33:11,921] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/api/models/Fyiras/network-security-model/preupload/main "HTTP/1.1 200 OK"
+[2026-04-16 16:33:12,101] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/Fyiras/network-security-model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+[2026-04-16 16:33:13,895] 1025 httpx - INFO - HTTP Request: POST https://huggingface.co/api/models/Fyiras/network-security-model/commit/main "HTTP/1.1 200 OK"

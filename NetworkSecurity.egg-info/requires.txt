@@ -12,3 +12,5 @@ mlflow
 dagshub
 fastapi
 uvicorn
+huggingface_hub
+joblib

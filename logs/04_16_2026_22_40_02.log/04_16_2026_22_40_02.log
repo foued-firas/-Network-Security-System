@@ -1,0 +1,15 @@
+[2026-04-16 22:40:07,291] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 22:40:07,769] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-16 22:40:08,267] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-16 22:40:08,994] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 22:40:08,995] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-16 22:40:08,996] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!
+[2026-04-16 22:40:09,413] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-16 22:40:09,464] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/aad62b7229c765d0e23d0c33780d131bfaeac11b/latest.json "HTTP/1.1 200 OK"
+[2026-04-16 22:40:09,630] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/model_20260416_175635.pkl "HTTP/1.1 302 Found"
+[2026-04-16 22:40:09,809] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/preprocessor_20260416_175635.pkl "HTTP/1.1 302 Found"
+[2026-04-16 22:40:15,433] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-16 22:40:40,355] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-16 22:40:40,403] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/aad62b7229c765d0e23d0c33780d131bfaeac11b/latest.json "HTTP/1.1 200 OK"
+[2026-04-16 22:41:10,823] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-16 22:41:10,872] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/aad62b7229c765d0e23d0c33780d131bfaeac11b/latest.json "HTTP/1.1 200 OK"

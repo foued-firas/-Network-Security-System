@@ -1,5 +1,8 @@
+import datetime
 import os
 import sys
+
+from dotenv import load_dotenv
 
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
@@ -23,13 +26,93 @@ from networksecurity.entity.artifact_entity import (
     DataTransformationArtifact,
     ModelTrainerArtifact,
 )
+import datetime
+import json
 
 import sys
+from networksecurity.cloud.huggingface_sync import HuggingFaceSync
+load_dotenv()
+TOKEN_HF = os.getenv("TOKEN_HF")
 
 
 class TrainingPipeline:
     def __init__(self):
         self.training_pipeline_config=TrainingPipelineConfig()
+
+    
+
+
+
+    def sync_model_to_hf(self):
+        try:
+            hf_sync = HuggingFaceSync(
+                repo_id="Fyiras/network-security-model",
+                token=TOKEN_HF
+            )
+
+            hf_sync.create_repo_if_not_exists()
+
+        # 🔥 Generate version
+            version = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+            model_file = "final_model/model.pkl"
+            preprocessor_file = "final_model/preprocessor.pkl"
+
+            model_name = f"model_{version}.pkl"
+            preprocessor_name = f"preprocessor_{version}.pkl"
+
+        # ✅ Upload versioned model
+            hf_sync.api.upload_file(
+                path_or_fileobj=model_file,
+                path_in_repo=model_name,
+                repo_id=hf_sync.repo_id,
+                token=TOKEN_HF
+        )
+
+        # ✅ Upload versioned preprocessor
+            hf_sync.api.upload_file(
+                path_or_fileobj=preprocessor_file,
+                path_in_repo=preprocessor_name,
+                repo_id=hf_sync.repo_id,
+                token=TOKEN_HF
+        )
+
+        # 🔥 Create latest.json
+            latest_data = {
+                "model": model_name,
+                "preprocessor": preprocessor_name
+            }
+
+            with open("latest.json", "w") as f:
+                json.dump(latest_data, f)
+
+        # ✅ Upload latest.json
+            hf_sync.api.upload_file(
+                path_or_fileobj="latest.json",
+                path_in_repo="latest.json",
+                repo_id=hf_sync.repo_id,
+                token=TOKEN_HF
+            )
+            
+
+        # ✅ Clean local files (optional but OK)
+            if os.path.exists(model_file):
+                os.remove(model_file)
+
+            if os.path.exists(preprocessor_file):
+                os.remove(preprocessor_file)
+
+            if os.path.exists("latest.json"):
+                os.remove("latest.json")
+
+            if os.path.exists("final_model") and not os.listdir("final_model"):
+                os.rmdir("final_model")
+                print("🗑️ Deleted empty final_model folder")
+
+            print(f"✅ Model uploaded (version: {version}) + latest.json updated")
+
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
         
         
 
@@ -84,13 +167,7 @@ class TrainingPipeline:
         except Exception as e:
             raise NetworkSecurityException(e, sys)
 
-    ## local artifact is going to s3 bucket    
-    def sync_artifact_dir_to_s3(self):
-        try:
-            aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/artifact/{self.training_pipeline_config.timestamp}"
-            self.s3_sync.sync_folder_to_s3(folder = self.training_pipeline_config.artifact_dir,aws_bucket_url=aws_bucket_url)
-        except Exception as e:
-            raise NetworkSecurityException(e,sys)
+ 
         
     
     
@@ -101,6 +178,7 @@ class TrainingPipeline:
             data_validation_artifact=self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact=self.start_data_transformation(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact=self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+            self.sync_model_to_hf()
             
         
             

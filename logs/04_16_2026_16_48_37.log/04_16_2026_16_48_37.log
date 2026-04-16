@@ -1,0 +1,6 @@
+[2026-04-16 16:48:40,696] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:48:40,707] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-16 16:48:41,289] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-16 16:48:41,901] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:48:41,902] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-16 16:48:41,903] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!

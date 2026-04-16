@@ -1,0 +1,9 @@
+[2026-04-16 16:14:10,881] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:14:10,901] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-16 16:14:12,168] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-16 16:14:12,755] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:14:12,756] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-16 16:14:12,757] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!
+[2026-04-16 16:14:13,096] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/model.pkl "HTTP/1.1 302 Found"
+[2026-04-16 16:14:13,261] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/preprocessor.pkl "HTTP/1.1 302 Found"
+[2026-04-16 16:14:13,262] 904 huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

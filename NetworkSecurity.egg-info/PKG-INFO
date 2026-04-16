@@ -17,6 +17,8 @@ Requires-Dist: mlflow
 Requires-Dist: dagshub
 Requires-Dist: fastapi
 Requires-Dist: uvicorn
+Requires-Dist: huggingface_hub
+Requires-Dist: joblib
 Dynamic: author
 Dynamic: author-email
 Dynamic: requires-dist

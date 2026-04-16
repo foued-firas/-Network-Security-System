@@ -1,0 +1,8 @@
+[2026-04-16 16:12:35,642] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:12:35,649] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-16 16:12:36,649] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-16 16:12:37,708] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-16 16:12:37,710] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-16 16:12:37,711] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!
+[2026-04-16 16:12:38,532] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/model.pkl "HTTP/1.1 302 Found"
+[2026-04-16 16:12:38,722] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/preprocessor.pkl "HTTP/1.1 302 Found"

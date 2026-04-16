@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MLOps Dashboard</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 60%; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        button {
+            padding: 6px 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+        .current { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h1>🚀 MLOps Dashboard</h1>
+
+<p>Current Model:
+    <span class="current">{{ current_version or "No model loaded" }}</span>
+</p>
+
+<table>
+    <tr>
+        <th>Version</th>
+        <th>Action</th>
+    </tr>
+
+    {% for v in versions %}
+    <tr>
+        <td>{{ v }}</td>
+        <td>
+            <form action="/rollback/{{ v }}" method="get">
+                <button type="submit">Rollback</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
