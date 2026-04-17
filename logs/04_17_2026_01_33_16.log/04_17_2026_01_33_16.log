@@ -1,0 +1,135 @@
+[2026-04-17 01:34:49,370] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-17 01:34:49,540] 107 dagshub - INFO - Accessing as foued-firas
+[2026-04-17 01:34:50,253] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/foued-firas/-Network-Security-System "HTTP/1.1 200 OK"
+[2026-04-17 01:34:50,876] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2026-04-17 01:34:50,877] 107 dagshub - INFO - Initialized MLflow to track repo "foued-firas/-Network-Security-System"
+[2026-04-17 01:34:50,878] 107 dagshub - INFO - Repository foued-firas/-Network-Security-System initialized!
+[2026-04-17 01:34:53,333] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:34:53,394] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:53,567] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/model_20260417_012327.pkl "HTTP/1.1 302 Found"
+[2026-04-17 01:34:54,011] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/preprocessor_20260417_012327.pkl "HTTP/1.1 302 Found"
+[2026-04-17 01:34:55,570] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:34:55,774] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:34:55,850] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:34:56,014] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260417_012327.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:34:56,189] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260417_012327.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:56,357] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260417_012327.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:57,146] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_235233.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:34:57,504] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260416_235233.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:57,705] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_175635.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:57,893] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_172643.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:58,064] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_171656.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:58,236] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_170706.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:58,415] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:34:58,619] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260417_012327.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:34:58,683] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260417_012327.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:58,850] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_235233.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:34:58,911] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260416_235233.json "HTTP/1.1 200 OK"
+[2026-04-17 01:34:59,074] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_175635.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:59,775] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_172643.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:34:59,940] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_171656.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:35:00,102] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_170706.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:35:14,564] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:35:15,264] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:35:24,903] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:35:24,953] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:35:55,392] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:35:55,469] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:25,769] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:25,823] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:30,810] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:36:31,042] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:36:31,107] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:36:31,242] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260417_012327.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:31,296] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260417_012327.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:31,465] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_235233.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:31,568] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260416_235233.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:31,756] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_175635.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:31,926] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_172643.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:32,141] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_171656.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:32,313] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_170706.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:32,483] 1025 httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Fyiras/network-security-model/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-04-17 01:36:32,648] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260417_012327.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:32,698] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260417_012327.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:32,989] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_235233.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:33,051] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/metadata_20260416_235233.json "HTTP/1.1 200 OK"
+[2026-04-17 01:36:33,227] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_175635.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:33,420] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_172643.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:33,589] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_171656.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:33,828] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/metadata_20260416_170706.json "HTTP/1.1 404 Not Found"
+[2026-04-17 01:36:48,696] 157 root - INFO - Start data Ingestion
+[2026-04-17 01:36:58,042] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:36:58,093] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:37:03,916] 68 root - INFO - Performed train test split on the dataframe
+[2026-04-17 01:37:03,916] 70 root - INFO - Exited split_data_as_train_test method of Data_Ingestion class
+[2026-04-17 01:37:03,916] 78 root - INFO - Exporting train and test file path.
+[2026-04-17 01:37:04,003] 87 root - INFO - Exported train and test file path.
+[2026-04-17 01:37:04,003] 160 root - INFO - Data Ingestion completed and artifact: DataIngestionArtifact(trained_file_path='artifacts\\04_17_2026_01_33_59\\data_ingestion\\ingested\\train.csv', test_file_path='artifacts\\04_17_2026_01_33_59\\data_ingestion\\ingested\\test.csv')
+[2026-04-17 01:37:04,126] 170 root - INFO - Initiate the data Validation
+[2026-04-17 01:37:05,357] 34 root - INFO - Required number of columns: 31
+[2026-04-17 01:37:05,357] 35 root - INFO - Data frame has columns: 31
+[2026-04-17 01:37:05,360] 110 root - INFO - Train dataset validation passed
+[2026-04-17 01:37:05,360] 34 root - INFO - Required number of columns: 31
+[2026-04-17 01:37:05,360] 35 root - INFO - Data frame has columns: 31
+[2026-04-17 01:37:05,361] 117 root - INFO - Test dataset validation passed
+[2026-04-17 01:37:05,761] 65 root - INFO - Entered initiate_data_transformation method of DataTransformation class
+[2026-04-17 01:37:05,761] 67 root - INFO - Starting data transformation
+[2026-04-17 01:37:05,789] 50 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[2026-04-17 01:37:05,789] 55 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[2026-04-17 01:37:05,810] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-17 01:37:05,813] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-17 01:37:05,814] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-17 01:37:05,815] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-17 01:37:28,410] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:37:28,464] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:37:58,866] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:37:58,930] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:38:29,290] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:38:29,354] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:38:59,715] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:38:59,766] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:39:30,078] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:39:30,169] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:40:00,837] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:40:00,920] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:40:31,304] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:40:31,363] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:41:01,699] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:41:01,748] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:41:32,029] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:41:32,081] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:41:38,834] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-17 01:41:38,856] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-17 01:41:38,856] 45 root - INFO - Entered the save_object method of MainUtils class
+[2026-04-17 01:41:38,876] 49 root - INFO - Exited the save_object method of MainUtils class
+[2026-04-17 01:41:38,878] 122 root - INFO - Model trainer artifact: ModelTrainerArtifact(trained_model_file_path='artifacts\\04_17_2026_01_33_59\\model_trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9910368710531676, precision_score=0.9894244458002848, recall_score=0.9926545602938176), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9774078478002378, precision_score=0.9731649565903709, recall_score=0.981687898089172))
+[2026-04-17 01:42:05,757] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:42:05,805] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:43:17,906] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:43:17,954] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:43:48,369] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:43:48,417] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:44:22,666] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:44:22,726] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:44:56,164] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:44:56,213] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:45:27,221] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:45:27,424] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:45:57,691] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:45:57,738] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:46:28,218] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:46:28,293] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:46:58,563] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:46:58,611] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:47:28,998] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:47:29,065] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:47:59,339] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:47:59,389] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:48:29,730] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:48:29,781] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:49:00,066] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:49:00,118] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:49:30,676] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:49:30,724] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"
+[2026-04-17 01:50:02,514] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/Fyiras/network-security-model/resolve/main/latest.json "HTTP/1.1 307 Temporary Redirect"
+[2026-04-17 01:50:02,699] 1025 httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Fyiras/network-security-model/37ea56c48e4d75bdca070052862b97fa436b22f9/latest.json "HTTP/1.1 200 OK"

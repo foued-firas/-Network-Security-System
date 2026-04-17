@@ -1,49 +1,770 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>MLOps Dashboard</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        h1 { color: #333; }
-        table { border-collapse: collapse; width: 60%; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        th { background-color: #f4f4f4; }
-        button {
-            padding: 6px 12px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover { background-color: #0056b3; }
-        .current { color: green; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NetworkSecurity — MLOps Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080c10;
+      --surface:   #0d1117;
+      --card:      #111820;
+      --border:    #1e2d3d;
+      --accent:    #00e5ff;
+      --accent2:   #7c3aed;
+      --success:   #00e676;
+      --warning:   #ffab40;
+      --danger:    #ff5252;
+      --text:      #e2e8f0;
+      --muted:     #4a6480;
+      --mono:      'JetBrains Mono', monospace;
+      --display:   'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Grid noise texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Ambient glow ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,229,255,.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ════════════════════════════════
+       SIDEBAR
+    ════════════════════════════════ */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 220px; height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0;
+      z-index: 10;
+    }
+
+    .logo {
+      padding: 0 24px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-mark {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .logo-sub {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .nav { margin-top: 24px; flex: 1; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: .5px;
+      transition: all .2s;
+      border-left: 2px solid transparent;
+    }
+    .nav-item:hover, .nav-item.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(0,229,255,.04);
+    }
+    .nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .3; }
+    }
+
+    /* ════════════════════════════════
+       MAIN
+    ════════════════════════════════ */
+    .main {
+      margin-left: 220px;
+      padding: 36px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+    }
+    .page-title {
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .page-title span { color: var(--accent); }
+
+    .topbar-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,255,.05);
+    }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: #00c8e0;
+      border-color: #00c8e0;
+      color: #000;
+    }
+    .btn-danger {
+      border-color: rgba(255,82,82,.4);
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: rgba(255,82,82,.08);
+      border-color: var(--danger);
+    }
+
+    /* ════════════════════════════════
+       LIVE MODEL BANNER
+    ════════════════════════════════ */
+    .live-banner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--accent);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      animation: slideDown .5s ease both;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .live-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 300px; height: 100%;
+      background: radial-gradient(ellipse at right, rgba(0,229,255,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .banner-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .live-badge {
+      background: rgba(0,230,118,.12);
+      border: 1px solid rgba(0,230,118,.3);
+      color: var(--success);
+      padding: 3px 10px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .banner-version {
+      font-family: var(--display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .banner-version code {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    /* metric cards row */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px 22px;
+      position: relative;
+      transition: border-color .2s;
+    }
+    .metric-card:hover { border-color: var(--accent); }
+    .metric-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .metric-value {
+      font-family: var(--display);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .metric-value.highlight { color: var(--accent); }
+    .metric-bar {
+      margin-top: 12px;
+      height: 3px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 1s ease;
+    }
+
+    /* ── Train vs Test sub-table ── */
+    .split-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 22px;
+      font-size: 12px;
+    }
+    .split-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .split-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(30,45,61,.5);
+    }
+    .split-table tr:last-child td { border-bottom: none; }
+    .split-table .row-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    .split-table .val { color: var(--text); font-weight: 500; }
+    .split-table .val.good { color: var(--success); }
+    .split-table .val.warn { color: var(--warning); }
+    .overfitting-badge {
+      display: inline-block;
+      font-size: 9px;
+      padding: 2px 7px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .badge-ok   { background: rgba(0,230,118,.1); color: var(--success); border: 1px solid rgba(0,230,118,.25); }
+    .badge-warn { background: rgba(255,171,64,.1); color: var(--warning); border: 1px solid rgba(255,171,64,.25); }
+
+    /* ════════════════════════════════
+       SECTION HEADER
+    ════════════════════════════════ */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: .5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px; height: 14px;
+      background: var(--accent);
+    }
+
+    /* ════════════════════════════════
+       VERSION TABLE
+    ════════════════════════════════ */
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      animation: fadeIn .6s ease .1s both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .vtable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .vtable thead tr {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .vtable th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .vtable td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(30,45,61,.6);
+      vertical-align: middle;
+      font-size: 12px;
+    }
+    .vtable tbody tr { transition: background .15s; }
+    .vtable tbody tr:hover { background: rgba(0,229,255,.03); }
+    .vtable tbody tr:last-child td { border-bottom: none; }
+    .vtable tbody tr.is-live {
+      background: rgba(0,229,255,.04);
+    }
+    .vtable tbody tr.is-live td:first-child {
+      border-left: 2px solid var(--accent);
+    }
+
+    .version-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+    }
+    .version-chip .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    .is-live .version-chip .dot { background: var(--success); }
+
+    .score-cell { font-weight: 600; }
+    .score-high { color: var(--success); }
+    .score-mid  { color: var(--warning); }
+    .score-low  { color: var(--danger); }
+
+    .date-cell { color: var(--muted); font-size: 11px; }
+
+    .tag-live {
+      display: inline-block;
+      padding: 3px 9px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: rgba(0,229,255,.1);
+      border: 1px solid rgba(0,229,255,.3);
+      color: var(--accent);
+    }
+
+    .rollback-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255,171,64,.3);
+      color: var(--warning);
+      background: transparent;
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .rollback-btn:hover {
+      border-color: var(--warning);
+      background: rgba(255,171,64,.07);
+    }
+
+    /* ════════════════════════════════
+       EMPTY / NO DATA STATE
+    ════════════════════════════════ */
+    .empty-state {
+      padding: 60px 0;
+      text-align: center;
+      color: var(--muted);
+    }
+    .empty-state .icon { font-size: 36px; margin-bottom: 12px; }
+    .empty-state p { font-size: 13px; }
+
+    /* ════════════════════════════════
+       SCROLLBAR
+    ════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 20px; }
+      .metrics-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .metrics-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<h1>🚀 MLOps Dashboard</h1>
+<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">NetSec<span style="color:var(--muted)">.</span></div>
+    <div class="logo-sub">MLOps Platform</div>
+  </div>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-item active">
+      <span class="nav-icon">◈</span> Dashboard
+    </a>
+    <a href="/train" class="nav-item">
+      <span class="nav-icon">⟳</span> Train Model
+    </a>
+    <a href="/predict" class="nav-item">
+      <span class="nav-icon">⟶</span> Predict
+    </a>
+    <a href="/versions" class="nav-item">
+      <span class="nav-icon">◷</span> Versions API
+    </a>
+    <a href="/docs" class="nav-item">
+      <span class="nav-icon">≡</span> API Docs
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="status-dot"></span>System Online
+    <br><br>
+    <span style="color:var(--muted)">Active Model</span><br>
+    <span style="color:var(--accent); word-break:break-all; font-size:9px;">
+      {{ current_version if current_version != "None" else "No model loaded" }}
+    </span>
+  </div>
+</aside>
 
-<p>Current Model:
-    <span class="current">{{ current_version or "No model loaded" }}</span>
-</p>
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main class="main">
 
-<table>
-    <tr>
-        <th>Version</th>
-        <th>Action</th>
-    </tr>
+  <!-- Top bar -->
+  <div class="topbar">
+    <h1 class="page-title">Model <span>Registry</span></h1>
+    <div class="topbar-actions">
+      <a href="/versions" class="btn">⟳ Refresh</a>
+      <a href="/train" class="btn btn-primary">⚡ Train New</a>
+    </div>
+  </div>
 
-    {% for v in versions %}
-    <tr>
-        <td>{{ v }}</td>
-        <td>
-            <form action="/rollback/{{ v }}" method="get">
-                <button type="submit">Rollback</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+  <!-- ══ LIVE MODEL BANNER ══ -->
+  {% if current_version != "None" %}
+  <div class="live-banner">
+    <div class="banner-header">
+      <div class="banner-label">
+        <span class="live-badge">● Live</span>
+        <span class="banner-version">Active Model &nbsp;
+          <code>{{ current_version }}</code>
+        </span>
+      </div>
+    </div>
 
+    <!-- Main 3 test metrics -->
+    <div class="metrics-row">
+
+      <div class="metric-card">
+        <div class="metric-label">F1 Score &mdash; Test</div>
+        <div class="metric-value highlight">
+          {% if current_meta.get("f1_score") is not none %}
+            {{ "%.1f"|format(current_meta.get("f1_score") * 100) }}<span style="font-size:18px;color:var(--muted)">%</span>
+          {% else %}
+            <span style="font-size:20px;color:var(--muted)">—</span>
+          {% endif %}
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: {{ (current_meta.get('f1_score') or 0) * 100 }}%"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Precision &mdash; Test</div>
+        <div class="metric-value">
+          {% if current_meta.get("precision") is not none %}
+            {{ "%.1f"|format(current_meta.get("precision") * 100) }}<span style="font-size:18px;color:var(--muted)">%</span>
+          {% else %}
+            <span style="font-size:20px;color:var(--muted)">—</span>
+          {% endif %}
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: {{ (current_meta.get('precision') or 0) * 100 }}%"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Recall &mdash; Test</div>
+        <div class="metric-value">
+          {% if current_meta.get("recall") is not none %}
+            {{ "%.1f"|format(current_meta.get("recall") * 100) }}<span style="font-size:18px;color:var(--muted)">%</span>
+          {% else %}
+            <span style="font-size:20px;color:var(--muted)">—</span>
+          {% endif %}
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: {{ (current_meta.get('recall') or 0) * 100 }}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Train vs Test breakdown -->
+    {% if current_meta.get("train_f1_score") is not none %}
+    <table class="split-table">
+      <thead>
+        <tr>
+          <th>Split</th>
+          <th>F1 Score</th>
+          <th>Precision</th>
+          <th>Recall</th>
+          <th>Overfitting</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-label">TEST</td>
+          {% set tf = current_meta.get("f1_score") or 0 %}
+          <td class="val {% if tf >= 0.9 %}good{% elif tf >= 0.7 %}{% else %}{% endif %}">
+            {{ "%.4f"|format(tf) }}
+          </td>
+          <td class="val">{{ "%.4f"|format(current_meta.get("precision") or 0) }}</td>
+          <td class="val">{{ "%.4f"|format(current_meta.get("recall") or 0) }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="row-label">TRAIN</td>
+          {% set trf = current_meta.get("train_f1_score") or 0 %}
+          <td class="val">{{ "%.4f"|format(trf) }}</td>
+          <td class="val">{{ "%.4f"|format(current_meta.get("train_precision") or 0) }}</td>
+          <td class="val">{{ "%.4f"|format(current_meta.get("train_recall") or 0) }}</td>
+          <td>
+            {% set gap = trf - tf %}
+            {% if gap < 0.05 %}
+              <span class="overfitting-badge badge-ok">✓ Healthy</span>
+            {% else %}
+              <span class="overfitting-badge badge-warn">⚠ Overfit Δ{{ "%.2f"|format(gap) }}</span>
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="live-banner" style="border-top-color: var(--muted);">
+    <div style="text-align:center; padding: 20px 0; color: var(--muted);">
+      <div style="font-size:28px; margin-bottom:10px;">○</div>
+      No model currently loaded. Run <code style="color:var(--accent)">/train</code> to get started.
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ══ VERSION HISTORY TABLE ══ -->
+  <div class="section-header" style="margin-top: 36px;">
+    <div class="section-title">Version History</div>
+    <span style="color:var(--muted); font-size:11px;">
+      {{ versions | length }} version{{ 's' if versions | length != 1 else '' }} on record
+    </span>
+  </div>
+
+  <div class="table-wrap">
+    {% if versions %}
+    <table class="vtable">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Date</th>
+          <th>F1 Score</th>
+          <th>Precision</th>
+          <th>Recall</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in versions %}
+        {% set is_live = (v.get("version") == current_version) %}
+        <tr class="{{ 'is-live' if is_live else '' }}">
+
+          <td>
+            <span class="version-chip">
+              <span class="dot"></span>
+              {{ v.get("version", "unknown") }}
+            </span>
+          </td>
+
+          <td class="date-cell">
+            {{ v.get("date", "—") }}
+          </td>
+
+          <!-- F1 Score -->
+          {% set f1 = v.get("f1_score") %}
+          <td class="score-cell {% if f1 and f1 >= 0.9 %}score-high{% elif f1 and f1 >= 0.7 %}score-mid{% elif f1 %}score-low{% endif %}">
+            {% if f1 is not none %}{{ "%.2f%%"|format(f1 * 100) }}{% else %}—{% endif %}
+          </td>
+
+          <!-- Precision -->
+          {% set pr = v.get("precision") %}
+          <td class="score-cell {% if pr and pr >= 0.9 %}score-high{% elif pr and pr >= 0.7 %}score-mid{% elif pr %}score-low{% endif %}">
+            {% if pr is not none %}{{ "%.2f%%"|format(pr * 100) }}{% else %}—{% endif %}
+          </td>
+
+          <!-- Recall -->
+          {% set rc = v.get("recall") %}
+          <td class="score-cell {% if rc and rc >= 0.9 %}score-high{% elif rc and rc >= 0.7 %}score-mid{% elif rc %}score-low{% endif %}">
+            {% if rc is not none %}{{ "%.2f%%"|format(rc * 100) }}{% else %}—{% endif %}
+          </td>
+
+          <td>
+            {% if is_live %}
+              <span class="tag-live">● Live</span>
+            {% else %}
+              <span style="color:var(--muted); font-size:11px;">idle</span>
+            {% endif %}
+          </td>
+
+          <td>
+            {% if not is_live %}
+             <a href="/rollback/{{ v.get('version') }}" 
+   class="rollback-btn"
+   data-version="{{ v.get('version') }}"
+   onclick="return confirm('Rollback to ' + this.dataset.version + '?')">
+  ⟳ Rollback
+</a> 
+            {% else %}
+              <span style="color:var(--muted); font-size:11px;">—</span>
+            {% endif %}
+          </td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+    <div class="empty-state">
+      <div class="icon">◌</div>
+      <p>No versions found. Train a model to populate this registry.</p>
+    </div>
+    {% endif %}
+  </div>
+
+</main>
+
+<script>
+  // Animate metric bars on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const fills = document.querySelectorAll('.metric-bar-fill');
+    fills.forEach(el => {
+      const target = el.style.width;
+      el.style.width = '0%';
+      requestAnimationFrame(() => {
+        setTimeout(() => { el.style.width = target; }, 100);
+      });
+    });
+  });
+</script>
 </body>
 </html>

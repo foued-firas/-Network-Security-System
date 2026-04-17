@@ -163,6 +163,34 @@ def get_available_versions():
     except Exception as e:
         print("⚠️ Error fetching versions:", str(e))
         return []  # ✅ ALWAYS return list
+    
+
+def get_version_metadata(version: str) -> dict:
+    """Download and return metadata for a specific version. Returns {} on failure."""
+    try:
+        path = hf_hub_download(
+            repo_id=REPO_ID,
+            filename=f"metadata_{version}.json",
+            token=TOKEN_HF
+        )
+        with open(path, "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def get_all_metadata() -> list[dict]:
+    """Return a list of metadata dicts for all available versions, newest first."""
+    versions = get_available_versions()
+    results = []
+    for v in versions:
+        meta = get_version_metadata(v)
+        if not meta:                          # fallback if no metadata file exists
+            meta = {"version": v}
+        results.append(meta)
+    return results
+
+
 def rollback_model(version: str):
     try:
         if not version_exists(version):
@@ -228,79 +256,29 @@ def list_versions():
         "current_version": current_version,
         "count": len(versions)
     }
-
-
 @app.get("/dashboard")
 def dashboard(request: Request):
-    versions = get_available_versions()
-
-    if not isinstance(versions, list):
-        versions = []
+    all_metadata = get_all_metadata()         # list of dicts, newest first
 
     safe_version = current_version if isinstance(current_version, str) else "None"
+
+    # Find metrics for the currently loaded version
+    current_meta = next(
+        (m for m in all_metadata if m.get("version") == safe_version), {}
+    )
 
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
         context={
-            "versions": versions,
-            "current_version": safe_version
+            "versions": all_metadata,         # now carries metrics, not just names
+            "current_version": safe_version,
+            "current_meta": current_meta,     # metrics for the live model
         }
     )
-@app.post("/predict")
-async def predict_route(request: Request, file: UploadFile = File(...)):
-    try:
-        # Read model reference under lock
-        with _model_lock:
-            current_model = model
-            current_preprocessor = preprocessor
 
-        # If no model in memory yet, try loading from HF
-        if current_model is None or current_preprocessor is None:
-            try:
-                load_model_from_hf()
-                with _model_lock:
-                    current_model = model
-                    current_preprocessor = preprocessor
-            except Exception as load_err:
-                return Response(
-                    content=(
-                        "⚠️ No trained model found on Hugging Face.\n"
-                        "Please call GET /train first to train and upload the model.\n\n"
-                        f"Details: {str(load_err)}"
-                    ),
-                    media_type="text/plain",
-                    status_code=503
-                )
 
-        df = pd.read_csv(file.file)
 
-        network_model = NetworkModel(
-            preprocessor=current_preprocessor,
-            model=current_model
-        )
-
-        y_pred = network_model.predict(df)
-        df['predicted_column'] = y_pred
-
-        os.makedirs('prediction_output', exist_ok=True)
-        df.to_csv('prediction_output/output.csv', index=False)
-
-        table_html = df.to_html(classes='table table-striped')
-
-        return templates.TemplateResponse(
-            request=request,
-            name="table.html",
-            context={"table": table_html}
-        )
-
-    except Exception as e:
-        import traceback
-        return Response(
-            content=f"Prediction failed: {str(e)}\n\n{traceback.format_exc()}",
-            media_type="text/plain",
-            status_code=500
-        )
 @app.on_event("startup")
 def start_watcher():
     thread = threading.Thread(target=model_watcher, daemon=True)
@@ -316,6 +294,131 @@ def rollback_endpoint(version: str):
         return Response(content=result["error"], status_code=400)
 
     return RedirectResponse(url="/dashboard", status_code=303)
+
+# ── ADD THESE IMPORTS at the top ──────────────────────────────
+from fastapi.responses import JSONResponse
+from io import StringIO
+import datetime
+import collections
+
+# ── GLOBALS: prediction audit log (in-memory ring buffer) ─────
+_audit_log = collections.deque(maxlen=500)   # keeps last 500 predictions
+
+
+# ══════════════════════════════════════════════════════════════
+# /predict  — POST CSV, returns predictions + logs each call
+# ══════════════════════════════════════════════════════════════
+@app.post("/predict")
+async def predict_route(file: UploadFile = File(...)):
+    try:
+        if model is None or preprocessor is None:
+            return JSONResponse({"error": "No model loaded"}, status_code=503)
+
+        content = await file.read()
+        df = pd.read_csv(StringIO(content.decode("utf-8")))
+
+        with _model_lock:
+            X = preprocessor.transform(df)
+            preds = model.predict(X)
+            probas = model.predict_proba(X).max(axis=1).tolist() if hasattr(model, "predict_proba") else [None] * len(preds)
+
+        results = []
+        for pred, conf in zip(preds.tolist(), probas):
+            label = "THREAT" if pred == 1 else "BENIGN"
+            entry = {
+                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "model_version": current_version,
+                "result": label,
+                "confidence": round(conf, 4) if conf is not None else None,
+            }
+            _audit_log.appendleft(entry)   # newest first
+            results.append(entry)
+
+        return JSONResponse({"predictions": results, "count": len(results)})
+
+    except Exception as e:
+        return JSONResponse(
+            {"error": str(e), "trace": traceback.format_exc()},
+            status_code=500
+        )
+
+
+# ══════════════════════════════════════════════════════════════
+# /audit  — last N prediction log entries  (dashboard table)
+# ══════════════════════════════════════════════════════════════
+@app.get("/audit")
+def audit_log(limit: int = 50):
+    return JSONResponse({"entries": list(_audit_log)[:limit], "total": len(_audit_log)})
+
+
+# ══════════════════════════════════════════════════════════════
+# /metrics/history  — f1/precision/recall over all versions
+# ══════════════════════════════════════════════════════════════
+@app.get("/metrics/history")
+def metrics_history():
+    all_meta = get_all_metadata()
+    history = []
+    for m in reversed(all_meta):          # oldest → newest for charts
+        if m.get("f1_score") is not None:
+            history.append({
+                "version":   m.get("version"),
+                "date":      m.get("date"),
+                "f1":        round(m["f1_score"]  * 100, 2),
+                "precision": round((m.get("precision") or 0) * 100, 2),
+                "recall":    round((m.get("recall")    or 0) * 100, 2),
+                "train_f1":  round((m.get("train_f1_score") or 0) * 100, 2),
+            })
+    return JSONResponse({"history": history})
+
+
+# ══════════════════════════════════════════════════════════════
+# /compare  — side-by-side diff of two versions
+# ══════════════════════════════════════════════════════════════
+@app.get("/compare")
+def compare_versions(v1: str, v2: str):
+    m1 = get_version_metadata(v1)
+    m2 = get_version_metadata(v2)
+    if not m1:
+        return JSONResponse({"error": f"Version {v1} not found"}, status_code=404)
+    if not m2:
+        return JSONResponse({"error": f"Version {v2} not found"}, status_code=404)
+
+    metrics = ["f1_score", "precision", "recall", "train_f1_score", "train_precision", "train_recall"]
+    diff = {}
+    for key in metrics:
+        a = m1.get(key) or 0
+        b = m2.get(key) or 0
+        diff[key] = {
+            "v1": round(a * 100, 2),
+            "v2": round(b * 100, 2),
+            "delta": round((a - b) * 100, 2),
+        }
+    return JSONResponse({"v1": v1, "v2": v2, "diff": diff})
+
+
+# ══════════════════════════════════════════════════════════════
+# /dashboard/predict  — serve the predict page (new template)
+# ══════════════════════════════════════════════════════════════
+@app.get("/dashboard/predict")
+def predict_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="predict.html",
+        context={"current_version": current_version or "None"}
+    )
+
+
+# ══════════════════════════════════════════════════════════════
+# /dashboard/audit  — serve the audit log page
+# ══════════════════════════════════════════════════════════════
+@app.get("/dashboard/audit")
+def audit_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="audit.html",
+        context={"current_version": current_version or "None"}
+    )
+
 
 if __name__ == "__main__":
     app_run(app, host="0.0.0.0", port=8000)

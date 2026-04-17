@@ -1,0 +1,1 @@
+{"version": "20260416_235233", "model_file": "model_20260416_235233.pkl", "preprocessor_file": "preprocessor_20260416_235233.pkl", "f1_score": 0.9813200498132005, "precision": 0.9768595041322314, "recall": 0.9858215179316097, "train_f1_score": 0.9907500502714659, "train_precision": 0.9877706495589414, "train_recall": 0.9937474788221057, "date": "2026-04-16 23:52:53"}
