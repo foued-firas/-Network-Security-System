@@ -27,7 +27,7 @@ export default function LoginPage({ onLogin }) {
   const submitPin = (e) => {
     e.preventDefault();
     if (pin === TECH_PIN) {
-      onLogin('technician');
+      onLogin('technician', pin);
     } else {
       setPinError(true);
       setShake(true);

@@ -3,12 +3,13 @@ import sys
 import os
 import traceback
 import certifi
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import pandas as pd
 import joblib
 import threading
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile, Request
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, Request
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
@@ -164,6 +165,13 @@ def get_available_versions():
         print("⚠️ Error fetching versions:", str(e))
         return []  # ✅ ALWAYS return list
     
+security = HTTPBearer()
+
+def verify_technician(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    if token != os.getenv("TECHNICIAN_PIN"):
+        raise HTTPException(status_code=403, detail="Technician access required")
+    
 
 def get_version_metadata(version: str) -> dict:
     """Download and return metadata for a specific version. Returns {} on failure."""
@@ -191,7 +199,7 @@ def get_all_metadata() -> list[dict]:
     return results
 
 
-def rollback_model(version: str):
+def rollback_model(version: str,):
     try:
         if not version_exists(version):
             return {"error": f"Version {version} not found"}
@@ -229,7 +237,7 @@ async def index():
 
 
 @app.get("/train")
-async def train_route():
+async def train_route(_=Depends(verify_technician)):
     try:
         train_pipeline = TrainingPipeline()
         train_pipeline.run_pipeline()
@@ -248,7 +256,7 @@ async def train_route():
     )
 
 @app.get("/versions")
-def list_versions():
+def list_versions(_=Depends(verify_technician)):
     versions = get_available_versions()
 
     return {
@@ -257,7 +265,7 @@ def list_versions():
         "count": len(versions)
     }
 @app.get("/dashboard")
-def dashboard(request: Request):
+def dashboard(request: Request,_=Depends(verify_technician)):
     all_metadata = get_all_metadata()         # list of dicts, newest first
 
     safe_version = current_version if isinstance(current_version, str) else "None"
@@ -287,7 +295,7 @@ def start_watcher():
 
 
 @app.get("/rollback/{version}")
-def rollback_endpoint(version: str):
+def rollback_endpoint(version: str,_=Depends(verify_technician)):
     result = rollback_model(version)
 
     if "error" in result:
@@ -355,7 +363,7 @@ def audit_log(limit: int = 50):
 # /metrics/history  — f1/precision/recall over all versions
 # ══════════════════════════════════════════════════════════════
 @app.get("/metrics/history")
-def metrics_history():
+def metrics_history(_=Depends(verify_technician)):
     all_meta = get_all_metadata()
     history = []
     for m in reversed(all_meta):          # oldest → newest for charts
@@ -375,7 +383,7 @@ def metrics_history():
 # /compare  — side-by-side diff of two versions
 # ══════════════════════════════════════════════════════════════
 @app.get("/compare")
-def compare_versions(v1: str, v2: str):
+def compare_versions(v1: str, v2: str, _=Depends(verify_technician)):
     m1 = get_version_metadata(v1)
     m2 = get_version_metadata(v2)
     if not m1:
@@ -400,7 +408,7 @@ def compare_versions(v1: str, v2: str):
 # /dashboard/predict  — serve the predict page (new template)
 # ══════════════════════════════════════════════════════════════
 @app.get("/dashboard/predict")
-def predict_page(request: Request):
+def predict_page(request: Request,_=Depends(verify_technician)):
     return templates.TemplateResponse(
         request=request,
         name="predict.html",
@@ -408,16 +416,15 @@ def predict_page(request: Request):
     )
 
 
-# ══════════════════════════════════════════════════════════════
-# /dashboard/audit  — serve the audit log page
-# ══════════════════════════════════════════════════════════════
+
 @app.get("/dashboard/audit")
-def audit_page(request: Request):
+def audit_page(request: Request,_=Depends(verify_technician)):
     return templates.TemplateResponse(
         request=request,
         name="audit.html",
         context={"current_version": current_version or "None"}
     )
+
 
 
 if __name__ == "__main__":

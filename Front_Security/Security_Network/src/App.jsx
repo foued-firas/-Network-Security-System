@@ -179,14 +179,18 @@ export default function App() {
     if (saved) setUser(saved);
   }, []);
 
-  const handleLogin = (role) => {
+  const handleLogin = (role, pin = null) => {
     setUser(role);
     localStorage.setItem('netsec_role', role);
+    if (pin) {
+      localStorage.setItem('netsec_token', pin);
+    }
   };
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('netsec_role');
+    localStorage.removeItem('netsec_token');
   };
 
   if (!user) {

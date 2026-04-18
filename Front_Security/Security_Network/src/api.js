@@ -10,6 +10,16 @@ http.interceptors.response.use(
   (err) => Promise.reject(err)
 );
 
+// ─── AUTH INTERCEPTOR ───
+// Automatically pull token from localStorage if it exists
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem('netsec_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // ─── Versions ───────────────────────────────────────────────────
 export const getVersions = () => http.get('/versions').then(r => r.data);
 
