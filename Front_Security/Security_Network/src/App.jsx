@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useLocation 
 import {
   ShieldCheck, LayoutDashboard, Server, Cpu,
   Shield, ClipboardList, ChevronRight, ChevronLeft,
-  Menu, LogOut, User as UserIcon, Settings,
+  Menu, LogOut, User as UserIcon, Settings, Activity,
 } from 'lucide-react';
 import { ToastProvider }    from './Toast.jsx';
 import Dashboard            from './pages/Dashboard.jsx';
@@ -11,7 +11,10 @@ import ModelRegistry        from './pages/ModelRegistry.jsx';
 import TrainingPipeline     from './pages/TrainingPipeline.jsx';
 import PredictPage          from './pages/PredictPage.jsx';
 import AuditLogPage         from './pages/AuditLogPage.jsx';
+import HealthPage          from './pages/HealthPage.jsx';
+import SettingsPage        from './pages/SettingsPage.jsx';
 import LoginPage            from './pages/LoginPage.jsx';
+import { checkHealth }      from './api';
 import './App.css';
 
 /* ── Nav config ──────────────────────────────────────────────────── */
@@ -34,6 +37,13 @@ const TECH_NAV = [
     items: [
       { to: '/predict',  icon: Shield,          label: 'Predict',          desc: 'Score network traffic' },
       { to: '/audit',    icon: ClipboardList,   label: 'Audit Log',        desc: 'Prediction history' },
+      { to: '/health',   icon: Activity,        label: 'Health',           desc: 'System status' },
+    ],
+  },
+  {
+    section: 'Account',
+    items: [
+      { to: '/settings', icon: Settings,        label: 'Settings',         desc: 'Profile & security' },
     ],
   },
 ];
@@ -44,13 +54,36 @@ const USER_NAV = [
     items: [
       { to: '/predict',  icon: Shield,          label: 'Predict',          desc: 'Score network traffic' },
       { to: '/audit',    icon: ClipboardList,   label: 'Audit Log',        desc: 'Prediction history' },
+      { to: '/health',   icon: Activity,        label: 'Health',           desc: 'System status' },
+    ],
+  },
+  {
+    section: 'Account',
+    items: [
+      { to: '/settings', icon: Settings,        label: 'Settings',         desc: 'Profile & security' },
     ],
   },
 ];
 
 /* ── Sidebar ──────────────────────────────────────────────────────── */
 function Sidebar({ open, toggle, role, onLogout }) {
+  const [health, setHealth] = useState('loading'); // 'loading' | 'ok' | 'error'
   const navItems = role === 'technician' ? TECH_NAV : USER_NAV;
+
+  useEffect(() => {
+    const ping = async () => {
+      try {
+        const res = await checkHealth();
+        setHealth(res.status === 'ok' ? 'ok' : 'degraded');
+      } catch {
+        setHealth('error');
+      }
+    };
+    ping();
+    const interval = setInterval(ping, 10000); // 10s check
+    return () => clearInterval(interval);
+  }, []);
+
 
   return (
     <aside className={`sidebar${open ? '' : ' collapsed'}`}>
@@ -99,17 +132,17 @@ function Sidebar({ open, toggle, role, onLogout }) {
 
       {/* Profile / Logout */}
       <div className="sidebar-user-section">
-          <div className="si-profile">
+          <NavLink to="/settings" className="si-profile" style={{ textDecoration: 'none' }}>
              <div className="si-avatar">
                 {role === 'technician' ? <Settings size={14} /> : <UserIcon size={14} />}
              </div>
              {open && (
                <div className="si-meta">
                   <span className="si-name">{role === 'technician' ? 'Technician' : 'Simple User'}</span>
-                  <span className="si-role">Active Session</span>
+                  <span className="si-role">View Settings</span>
                </div>
              )}
-          </div>
+          </NavLink>
           <button className="logout-btn" onClick={onLogout} title="Sign Out">
              <LogOut size={16} />
              {open && <span>Logout</span>}
@@ -120,8 +153,12 @@ function Sidebar({ open, toggle, role, onLogout }) {
       {open && (
         <div className="sidebar-footer">
           <div className="sf-row">
-            <span className="sf-dot" />
-            <span className="sf-label">System Online</span>
+            <span className={`sf-dot status-${health}`} />
+            <span className="sf-label">
+              {health === 'loading' ? 'Checking system...' : 
+               health === 'ok' ? 'System Online' : 
+               health === 'degraded' ? 'System Degraded' : 'System Offline'}
+            </span>
           </div>
           <span className="sf-api">api: localhost:8000</span>
         </div>
@@ -160,6 +197,8 @@ function AppShell({ role, onLogout }) {
           )}
           <Route path="/predict"  element={<PredictPage />}     />
           <Route path="/audit"    element={<AuditLogPage />}    />
+          <Route path="/health"   element={<HealthPage />}      />
+          <Route path="/settings" element={<SettingsPage />}    />
           
           {/* Default fallbacks */}
           <Route path="*" element={<Navigate to={role === 'technician' ? "/" : "/predict"} replace />} />

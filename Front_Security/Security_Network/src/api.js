@@ -53,3 +53,5 @@ export const rollback = (version) =>
     if (e.response?.status === 303) return { ok: true };
     throw e;
   });
+// ─── Health check ───────────────────────────────────────────────
+export const checkHealth = () => http.get('/health').then(r => r.data);
